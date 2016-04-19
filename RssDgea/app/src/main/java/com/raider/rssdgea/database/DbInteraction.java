@@ -35,16 +35,18 @@ public class DbInteraction {
 
     public void saveItems(List<RssItem> items) {
         SQLiteDatabase db = getWritableDb();
-        if (db != null) {
-            for (RssItem r: items) {
-              if (checkItem(r).equals(false)) {
-                  try {
-                      insertInto(r);
-                  } catch (ParseException e) {
-                      e.printStackTrace();
-                  }
+
+        for (RssItem r: items) {
+
+          if (!existsItem(r)) {
+
+              try {
+
+                  insertInto(r);
+              } catch (ParseException e) {
+                  e.printStackTrace();
               }
-            }
+          }
         }
 
         deleteLastEntries();
@@ -52,7 +54,7 @@ public class DbInteraction {
         if (db != null) db.close();
     }
 
-    private Boolean checkItem(RssItem r) {
+    private boolean existsItem(RssItem r) {
 
         SQLiteDatabase db = getReadableDb();
 
@@ -140,16 +142,4 @@ public class DbInteraction {
 
         return items;
     }
-
-    /*public void showData() {
-        SQLiteDatabase db = getReadableDb();
-
-        Cursor c = db.rawQuery("SELECT * FROM rssitems", null);
-        if (c.moveToFirst()) {
-            do {
-                System.out.println(c.getString(0) + "x");
-            } while (c.moveToNext());
-        }
-        if (db != null) db.close();
-    }*/
 }

@@ -21,8 +21,10 @@ import java.util.List;
  * Created by Raider on 14/04/16.
  */
 public class RssParser {
+
     private URL rssUrl;
     private RssItem rssItem;
+    private final List<RssItem> items = new ArrayList<>();
 
     public RssParser() {
         try {
@@ -33,8 +35,6 @@ public class RssParser {
     }
 
     public List<RssItem> parse() {
-
-        final List<RssItem> items = new ArrayList<>();
 
         RootElement root =  new RootElement("rss");
         Element channel = root.getChild("channel");

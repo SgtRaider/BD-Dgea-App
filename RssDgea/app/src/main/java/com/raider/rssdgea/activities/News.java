@@ -15,6 +15,7 @@ import com.raider.rssdgea.adapters.RssAdapter;
 import com.raider.rssdgea.dataTemplates.RssItem;
 import com.raider.rssdgea.database.DbInteraction;
 import com.raider.rssdgea.rssBuilding.RssParser;
+import com.raider.rssdgea.services.NotificationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class News extends AppCompatActivity {
     private SwipeRefreshLayout swipeLayout;
     private DbInteraction db;
     private RssParser saxparser;
+    private Intent msgIntent;
+    public static Boolean onPause = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,19 @@ public class News extends AppCompatActivity {
         asynctask.execute();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Intent msgIntent = new Intent(News.this, NotificationService.class);
+        startService(msgIntent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent msgIntent = new Intent(News.this, NotificationService.class);
+    }
+
     private class Refresh extends AsyncTask<String,Void,Void> {
 
         @Override
@@ -91,10 +107,10 @@ public class News extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aBoolean) {
             super.onPostExecute(aBoolean);
+            items.clear();
             adapter.clear();
             adapter.addAll(db.getList());
             adapter.notifyDataSetChanged();
-            //db.showData();
             swipeLayout.setRefreshing(false);
         }
     }

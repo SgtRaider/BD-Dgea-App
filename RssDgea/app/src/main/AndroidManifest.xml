@@ -20,6 +20,7 @@
         <activity android:name=".activities.UrlViewer"></activity>
         <meta-data android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAIroQNFMLDJYk2Pg7ODx1XhBDpuLFBQ63n9NuYOQ" />
+        <service android:name=".services.NotificationService"></service>
     </application>
 
 </manifest>
