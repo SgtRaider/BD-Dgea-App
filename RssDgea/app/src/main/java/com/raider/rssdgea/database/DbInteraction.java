@@ -142,4 +142,18 @@ public class DbInteraction {
 
         return items;
     }
+
+    public List<RssItem> checkNewEntries(List<RssItem> items) {
+
+        List<RssItem> newEntries = new ArrayList<>();
+
+        for (RssItem r: items) {
+
+            if (!existsItem(r)) {
+                newEntries.add(r);
+            }
+        }
+
+        return newEntries;
+    }
 }
